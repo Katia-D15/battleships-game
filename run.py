@@ -28,61 +28,88 @@ declare winner
 
 """
 
+class Board:
+   """
+   Main board class. Sets board size, the number of ships, the player's name
+   This class has methods for display board, place ship, register shot and end of game
+   """
+   def __init__(self, size, num_ships, name):
+      self.size = size
+      self.num_ships = num_ships
+      self.name = name
+      self.guesses = []
+      self.ships = []
+      self.board = [["~" for x in range(size)] for y in range(size)]
 
-def create_board():
-   """
-   Create a board 5x5
-   """
-   board = []
-   for i in range(5):
-       line = []
-       for j in range(5):
-         line.append("~")
-       board.append(line)
-   return board
+
+   def display_board(self, show_ships=False):
+      """
+      Shows the current board, whether or not it reveals the position of the ships
+      """
+      for i in range(self.size):
+         show_row = self.board[i][:]
+         if show_ships:
+            for col in range(self.size):
+               if (i, col) in self.ships and show_row[col] == "~":
+                  show_row[col] = "@"
+         print(f"{i} "+" ".join(show_row))
+
+
+
+   def place_ship(self):
+      """
+      Position ships randomly on the board
+      """
+      while len(self.ships) < self.num_ships:
+         row = random.randint(0, self.size-1)
+         col = random.randint(0, self.size -1)
+         if (row, col) not in self.ships:
+            self.ships.append((row, col))
+
+   def register_shot(self, row, col):
+      """
+      Register a shot on the board and check whether it was right or wrong
+      """ 
+      #Update the board
+      if(row, col) in self.ships:
+         self.board[row][col] = "X"
+         self.ships.remove((row, col))
+         print("You hit a ship!")
+         return True
+      else:
+         #Record the guess
+         self.guesses.append((row,col))
+         self.board[row][col] = "O"
+         print("Wrong.Try again")
+         return False
+
+
+        
+   def end_of_game (self):
+      """ 
+      Checks if all ships have been destroyed
+      """
+      return len(self.ships) == 0
+
+ 
+
+
    
 
-def display_board(board):
-   for k in board:
-      print(" ".join(k))
+def new_game():
+   
+   
+   new_game=Board(size=5,num_ships=4,name="ze")
+   size_number=new_game.size
+   number_of_ships=new_game.num_ships
 
-
-def place_ship(board):
-   """
-   Position four ships randomly on the board
-   """
-
-   ships_placed = 0
-   num_ships=4
-
-   while ships_placed < num_ships:
-      ship_row = random.randint(0,4)
-      ship_col = random.randint(0,4)
-
-      #Check if position is empty
-      if board[ship_row][ship_col] == "~":
-         board[ship_row][ship_col] = "@"
-         ships_placed +=1
-         #print(f"Ship placed in: row {ship_row}, column {ship_col}")
-
-def user_player():
-   name=input("What is your name? ")
-   board=create_board()
-   place_ship(board)
-   print(f"{name}'s board")
-   display_board(board)
-
-def computer_player():
-   print("computer's board")
-
-
-def main():
    print("Welcome to Battle of Ships Game!")
-   print("Board Size:5. Number of ships: 4")
-   board=create_board()
-   display_board(board)
-   user_player()
-   computer_player()
+   print(f"Board Size:{size_number}. Number of ships: {number_of_ships}")
+
+   new_game.display_board(show_ships=True)
+   new_game.place_ship()
+   new_game.end_of_game()
    
 
-main()
+
+new_game()
