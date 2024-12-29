@@ -91,6 +91,25 @@ class Board:
       """
       return len(self.ships) == 0
 
+
+
+
+def get_valid_coordinates(size):
+   """
+   Function that validate the coordinates
+   """
+   while True:
+      try:
+         user_row = int(input("Enter a integer number for row: "))
+         user_col = int(input("Enter a integer number for column: "))
+         if 0 <= user_row < size and 0 <= user_col < size:
+            return user_row, user_col
+         else:
+            print("Coordinates outside the board size limit.Please try again.")
+      except ValueError:
+         print("Invalid input. Enter integers numbers ")
+
+
  
 
 
@@ -105,10 +124,40 @@ def new_game():
 
    print("Welcome to Battle of Ships Game!")
    print(f"Board Size:{size_number}. Number of ships: {number_of_ships}")
-
+   
+   print("Start board")
    new_game.display_board(show_ships=True)
-   new_game.place_ship()
-   new_game.end_of_game()
+
+   #User Board
+   user_name=input("What is your name? ")
+   print(f"{user_name}'s board")
+   user_board = Board(size=5,num_ships=4,name="Player")
+   user_board.place_ship()
+   user_board.display_board(show_ships=True)
+   get_valid_coordinates(size_number)
+
+   #Computer Board
+   print("computer's board")
+   computer_board = Board(size=5,num_ships=4,name="Computer")
+   
+   computer_board.place_ship()
+   computer_board.display_board(show_ships=False)
+
+   #Game round
+   while not computer_board.end_of_game():
+      print("Your current board")
+      user_board.display_board(show_ships=True)
+
+      print("Computer current board")
+      user_board.display_board(show_ships=False)
+
+   
+      break
+
+
+
+   #name=new_game.name
+   #new_game.end_of_game()
    
 
 
