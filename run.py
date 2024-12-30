@@ -37,9 +37,10 @@ class Board:
       self.size = size
       self.num_ships = num_ships
       self.name = name
-      self.guesses = []
-      self.ships = []
+      self.guesses = [] # all the guesses that were made against the board
+      self.ships = [] # The coordinates of the ships on board
       self.board = [["~" for x in range(size)] for y in range(size)]
+      
 
 
    def display_board(self, show_ships=False):
@@ -79,16 +80,16 @@ class Board:
       if(row, col) in self.ships:
          self.board[row][col] = "X"
          self.ships.remove((row, col))
-         print("You hit a ship!")
+         print("Hit a ship!")
          return True
       else:
          #Record the guess
          self.guesses.append((row,col))
          self.board[row][col] = "O"
-         print("Wrong.Try again")
+         print("Wrong")
          return False
 
-
+ 
         
    def end_of_game (self):
       """ 
@@ -99,7 +100,7 @@ class Board:
 
 
 
-def get_valid_coordinates(size):
+def get_valid_coordinates(size, computer_board):
    """
    Function to validate the coordinates
    """
@@ -108,15 +109,20 @@ def get_valid_coordinates(size):
          user_row = int(input("Enter a integer number for row: "))
          user_col = int(input("Enter a integer number for column: "))
          if 0 <= user_row < size and 0 <= user_col < size:
-            return user_row, user_col
+            if (user_row, user_col) not in computer_board.guesses:
+               return user_row, user_col
+            else:
+               print(" You can't use the same coordinates twice.")
+
          else:
             print("Coordinates outside the board size limit.Please try again.")
       except ValueError:
          print("Invalid input. Enter integers numbers ")
+         
 
 
 
-def computer_turn(user_board):
+def computer_turn(user_board, user_name):
    """
    Sets the computer's move
    """
@@ -127,6 +133,8 @@ def computer_turn(user_board):
       if (row, col) not in user_board.guesses:
          print(f"Computer shoots at ({row},{col})")
          user_board.register_shot(row, col)
+         print(f"{user_name}'s board")
+         user_board.display_board(show_ships=True)
          break
 
 
@@ -153,7 +161,7 @@ def winner (user_board, computer_board):
 
 def play_game(user_board,computer_board, user_name):
    """
-   
+   Main play game function 
    """
      
    new_game=Board(size=5,num_ships=4,name="Computer")
@@ -162,38 +170,32 @@ def play_game(user_board,computer_board, user_name):
 
 
    while not winner(user_board,computer_board):
-         #Player's turn
+      #Player's turn
       print("Your turn!")
-      row, col = get_valid_coordinates(computer_board.size)
+      row, col = get_valid_coordinates(computer_board.size, computer_board)
       computer_board.register_shot(row, col)
-
-      print(f"{user_name}'s board")
-      user_board.display_board(show_ships=True)
 
       print("Computer's board")
       computer_board.display_board(show_ships=True) #After test change this to Fasle
 
+      #Clean this four prints when finish to test
+      print(computer_board.guesses)# The list of user's guess
+      print(user_board.guesses)# The list of computer's guess
+      print(user_board.ships)# The list of user board ships
+      print(computer_board.ships)# The list of computer board ships
+
       if winner(user_board, computer_board):
          break
-         #if (row, col) is not in guess:
-         #Add the coordinates to the guess if is right
-         # call display board to change the board
-
-         #else:
-         #
-         #call display board to change the board
-         #computer_turn(user_board)
-
-
-         
-
-
-
+      #Computer's turn
+      computer_turn(user_board, user_name)
+      if winner(user_board, computer_board):
+         break
 
 
 
 def new_game():
    """
+   Function to Initialize user's and computers's board
    """
    
    new_game=Board(size=5,num_ships=4,name="Computer")
@@ -213,9 +215,7 @@ def new_game():
    user_board.place_ship()
    user_board.display_board(show_ships=True)
    
-   #get_valid_coordinates(size_number)
    
-
    #Initialize computer's board
    print("computer's board")
    computer_board = Board(size=5,num_ships=4,name="Computer")
