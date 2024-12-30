@@ -46,6 +46,11 @@ class Board:
       """
       Shows the current board, whether or not it reveals the position of the ships
       """
+
+      #Print column numbers at the top
+      show_col = "  "+" ".join(str(col) for col in range(self.size))
+      print(show_col)
+
       for i in range(self.size):
          show_row = self.board[i][:]
          if show_ships:
@@ -96,7 +101,7 @@ class Board:
 
 def get_valid_coordinates(size):
    """
-   Function that validate the coordinates
+   Function to validate the coordinates
    """
    while True:
       try:
@@ -110,15 +115,88 @@ def get_valid_coordinates(size):
          print("Invalid input. Enter integers numbers ")
 
 
- 
 
-
+def computer_turn(user_board):
+   """
+   Sets the computer's move
+   """
    
+   while True:
+      row = random.randint(0, user_board.size - 1)
+      col = random.randint(0, user_board.size - 1)
+      if (row, col) not in user_board.guesses:
+         print(f"Computer shoots at ({row},{col})")
+         user_board.register_shot(row, col)
+         break
+
+
+
+
+def winner (user_board, computer_board):
+   """
+   Winner of the game
+   """
+   #Check if the player is the winner
+   if computer_board.end_of_game():
+      print("You destroyed all the computer ships")
+      return True
+
+   #Check if the computer is the winner
+   elif user_board.end_of_game():
+      print("Computer destroyed all your ships")
+      return True
+
+   else:
+
+      return False
+
+
+def play_game(user_board,computer_board, user_name):
+   """
+   
+   """
+     
+   new_game=Board(size=5,num_ships=4,name="Computer")
+   user_ships=new_game.num_ships
+   computer_ships=new_game.num_ships
+
+
+   while not winner(user_board,computer_board):
+         #Player's turn
+      print("Your turn!")
+      row, col = get_valid_coordinates(computer_board.size)
+      computer_board.register_shot(row, col)
+
+      print(f"{user_name}'s board")
+      user_board.display_board(show_ships=True)
+
+      print("Computer's board")
+      computer_board.display_board(show_ships=True) #After test change this to Fasle
+
+      if winner(user_board, computer_board):
+         break
+         #if (row, col) is not in guess:
+         #Add the coordinates to the guess if is right
+         # call display board to change the board
+
+         #else:
+         #
+         #call display board to change the board
+         #computer_turn(user_board)
+
+
+         
+
+
+
+
+
 
 def new_game():
+   """
+   """
    
-   
-   new_game=Board(size=5,num_ships=4,name="ze")
+   new_game=Board(size=5,num_ships=4,name="Computer")
    size_number=new_game.size
    number_of_ships=new_game.num_ships
 
@@ -127,38 +205,27 @@ def new_game():
    
    print("Start board")
    new_game.display_board(show_ships=True)
-
-   #User Board
+   
+   #Initialize user's board
    user_name=input("What is your name? ")
    print(f"{user_name}'s board")
    user_board = Board(size=5,num_ships=4,name="Player")
    user_board.place_ship()
    user_board.display_board(show_ships=True)
-   get_valid_coordinates(size_number)
+   
+   #get_valid_coordinates(size_number)
+   
 
-   #Computer Board
+   #Initialize computer's board
    print("computer's board")
    computer_board = Board(size=5,num_ships=4,name="Computer")
    
    computer_board.place_ship()
    computer_board.display_board(show_ships=False)
 
-   #Game round
-   while not computer_board.end_of_game():
-      print("Your current board")
-      user_board.display_board(show_ships=True)
+  
+   play_game(user_board,computer_board,user_name)
 
-      print("Computer current board")
-      user_board.display_board(show_ships=False)
-
-   
-      break
-
-
-
-   #name=new_game.name
-   #new_game.end_of_game()
-   
 
 
 new_game()
