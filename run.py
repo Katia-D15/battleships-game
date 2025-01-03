@@ -64,23 +64,23 @@ class Board:
         Position ships randomly on the board
         """
         while len(self.ships) < self.num_ships:
-            row = random.randint(0, self.size-1)
-            col = random.randint(0, self.size -1)
+            row = random.randint(0, self.size - 1)
+            col = random.randint(0, self.size - 1)
             if (row, col) not in self.ships:
                 self.ships.append((row, col))
 
     def register_shot(self, row, col):
-      """
-      Register a shot on the board and check whether it was right or wrong
-      """
-      # Update the board
-      if (row, col) in self.ships:
-         self.board[row][col] = "X"
-         self.ships.remove((row, col))
-         self.score += 1
-         print("Hit a ship!")
-         return True
-      else:
+        """
+        Register a shot on the board and check whether it was right or wrong
+        """
+        # Update the board
+        if (row, col) in self.ships:
+            self.board[row][col] = "X"
+            self.ships.remove((row, col))
+            self.score += 1
+            print("Hit a ship!")
+            return True
+        else:
          # Record the guess
            self.guesses.append((row, col))
            self.board[row][col] = "O"
@@ -109,7 +109,7 @@ def get_valid_coordinates(size, computer_board):
 
            if 0 <= user_row < size and 0 <= user_col < size:
               if (user_row, user_col) not in computer_board.guesses and computer_board.board[user_row][user_col] not in ["X", "O"]:
-                  return user_row, user_col
+                return user_row, user_col
               else:
                   print("Coordinates already guessed or ship destroyed. Try again")
            else:
@@ -124,13 +124,13 @@ def computer_turn(user_board, user_name):
     while True:
         row = random.randint(0, user_board.size - 1)
         col = random.randint(0, user_board.size - 1)
-        if (row, col) not in user_board.guesses:
-            print("\n")
-            print(f"{user_name}'s board")
-            user_board.display_board(show_ships=True)
+        if (row, col) not in user_board.guesses and user_board.board[row][col] not in ["X", "O"]:
             print("-" * 34)
             print(f"Computer shoots at ({row},{col})")
             user_board.register_shot(row, col)
+            print("-" * 34)
+            print(f"{user_name}'s board")
+            user_board.display_board(show_ships=True)
             break
 
 def winner(user_board, computer_board):
@@ -158,6 +158,7 @@ def display_scores(user_board, computer_board):
     Display the scores for both the user and the computer
     """
     print("-" * 34)
+    #print(f"Computer shoots at ({row},{col})")
     print(f"Score for {user_board.name}: {computer_board.score}")
     print(f"Score for {computer_board.name}: {user_board.score}")
     print("-" * 34)
@@ -197,7 +198,9 @@ def play_game(user_board, computer_board, user_name):
 
 def new_game():
     """
-    Function to Initialize user's and computers's board
+    Starts a new game.
+    Initialize user's and computers's board.
+    Sets the board size and number of ships.
     """
 
     new_game = Board(size=5, num_ships=4, name="Computer")
