@@ -164,7 +164,6 @@ def display_scores(user_board, computer_board):
     print(f"Score for {user_board.name}: {computer_board.score}")
     print(f"Score for {computer_board.name}: {user_board.score}")
     print("-" * 34)
-    still_exit()
 
 
 def play_game(user_board, computer_board, user_name):
@@ -191,6 +190,7 @@ def play_game(user_board, computer_board, user_name):
 
         # Display scores after computer's turn
         display_scores(user_board, computer_board)
+        still_exit()
 
 
 def new_game():
