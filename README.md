@@ -1,6 +1,6 @@
 # Battleships Game
   
-  Battleships Game is a Python terminal game.
+  Battleships Game is a Python terminal game, 
 
 ![Game Screenshot](./images/)
 ## How to play
