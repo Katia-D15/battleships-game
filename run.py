@@ -148,8 +148,7 @@ def still_exit():
     and to exit it.
     """
     while True:
-        print("Enter any key to continue or 'e' to exit:")
-        still = input().lower()
+        still = input("Enter any key to continue or 'e' to exit:\n").lower()
         if still == "e":
             exit()
         else:
