@@ -3,17 +3,15 @@
  Battleships Game is a Python terminal game that runs on the Code Institute mock terminal hosted on Heroku.
  The objective of the game is for the player to locate and destroy all the computer's ships before the computer finds and destroys the player's ships.
 
-![Game Screenshot](./images/)
+![Game Screenshot](./images/app-screenshot.png)
 ## How to play
-After entering your name, you will be presented with your board, which has ships randomly positioned.
+In this version, after the user enters the name, their board is displayed with randomly positioned ships. Then he will be asked to enter the row and column coordinates respectively.
 
 Ships on the player's board are symbolized by @.
 
-The computer’s board also has randomly positioned ships but is hidden from view.
-
-Enter your guesses by providing the row and column coordinates.
-
 Missed guesses are marked with O, and successful hits are marked with X.
+
+Then the computer board appears, also with the ships randomly positioned, but hidden from the player.
 
 The game alternates turns between the player and the computer, with each attempting to locate and destroy the opponent's ships.
 
@@ -26,11 +24,13 @@ The winner is the first to destroy all of the opponent's ships.
 ### Existing Features
 - Random Board Generation
   - Ships are randomly positioned on both the player's and the computer's boards.
+  - First appears the player board with its ships positioned randomly
  
 
-![Screenshot](./images/)
+![Screenshot](./images/user-screenshot.png)
 
 - User Input
+  - Players enter a name
   - Players enter row and column coordinates to guess the location of the computer’s ships.
   - The computer’s board is updated based on the player’s guesses, marking hits and misses.
 
@@ -38,19 +38,17 @@ The winner is the first to destroy all of the opponent's ships.
  - The computer takes turns guessing the player’s ship positions.
  - Display user's board
 
-![Screenshot](./images/)
+![Screenshot](./images/computer-screenshot.png)
 
 - Score Display
   - Scores are displayed after each round.
-
-![Screenshot](./images/)
 
 - Input Validation and Error-Checking
   - Prevents guesses outside the board's size.
   - Ensures only integers are accepted.
   - Disallows repeating the same guess.
 
-![Screenshot](./images/)
+![Screenshot](./images/invalid-input-screenshot.png)
 
 - Data maintained in class instances
 
@@ -70,6 +68,8 @@ The class also has some methods such as, display_board to display the boards, pl
 
 ## Testing
 
+Manual Testing
+
 The code was validated using the PEP8 Python Validator to ensure compliance with Python best practices.
 
 Invalid inputs were tested, such as:
@@ -81,7 +81,8 @@ Invalid inputs were tested, such as:
 ### Bugs
 
   Solved Bugs
-  - The coordinates where the ships were located on the board, from both the player and the computer, were being accepted more than once. This was resolved by adding an appropriate if statement to check for duplicates.
+  - The coordinates where the ships were located on the board, from both the player and the 
+    computer, were being accepted more than once. This was fixed by adding an appropriate if statement to check for duplicates.
 
 ### Remainning Bugs
 
@@ -97,13 +98,14 @@ Invalid inputs were tested, such as:
 
 ## Deployment
 
-- This project was deployed using Code Institute's mock terminal for Heroku
+- This project was deployed using Code Institute's mock terminal for Heroku.
 
     - Steps for deployment:
-      -  .
-      -  
-      - 
-      - 
+      -  Fork or clone this repository
+      -  Create a new Heroku app
+      -  Set the buildbacks to Python and NodeJS in that order
+      - Link the Heroku app to the repository
+      - Click on Deploy
 
 ## Credits
 
